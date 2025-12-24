@@ -1,11 +1,12 @@
 extends CharacterBody2D
 
-const SPEED = 500.0
-const JUMP_VELOCITY = -600.0
+const SPEED = 200.0
+const JUMP_VELOCITY = -300.0
 const ACCELERATION = 0.1
 const DECELERATION = 0.1
 
 @onready var gc := $GrappleControl
+@onready var ani: AnimatedSprite2D = $AnimatedSprite2D
 
 func _physics_process(delta):
 	if not is_on_floor():
@@ -14,11 +15,19 @@ func _physics_process(delta):
 	if Input.is_action_just_pressed("jump") && (is_on_floor() || gc.launched):
 		velocity.y += JUMP_VELOCITY
 		gc.retract()
-	
-	var direction = Input.get_axis("left", "right")
-	if direction:
-		velocity.x = lerp(velocity.x, SPEED * direction, ACCELERATION)
-	else:
-		velocity.x = lerp(velocity.x, 0.0, DECELERATION)
-	
+		ani.play("jump")
+	if gc.launched == false:
+		var direction = Input.get_axis("left", "right")
+		if direction:
+			velocity.x = lerp(velocity.x, SPEED * direction, ACCELERATION)
+		else:
+			velocity.x = lerp(velocity.x, 0.0, DECELERATION)
+		if direction == 1:
+			ani.play("run")
+			ani.flip_h = false
+		elif direction == -1:
+			ani.flip_h = true
+			ani.play("run")
+		else:
+			ani.play("idle")	
 	move_and_slide()

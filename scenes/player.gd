@@ -1,33 +1,24 @@
 extends CharacterBody2D
 
-const SPEED = 300.0
-const JUMP_VELOCITY = -400.0
-@onready var ani_sprite = $AnimatedSprite2D
+const SPEED = 500.0
+const JUMP_VELOCITY = -600.0
+const ACCELERATION = 0.1
+const DECELERATION = 0.1
 
-func _physics_process(delta: float) -> void:
-	# Add the gravity.
+@onready var gc := $GrappleControl
+
+func _physics_process(delta):
 	if not is_on_floor():
 		velocity += get_gravity() * delta
-
-	# Handle jump.
-	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
-		velocity.y = JUMP_VELOCITY
-
-	# Get the input direction and handle the movement/deceleration.
-	# As good practice, you should replace UI actions with custom gameplay actions.
-	var direction := Input.get_axis("ui_left", "ui_right")
+	
+	if Input.is_action_just_pressed("jump") && (is_on_floor() || gc.launched):
+		velocity.y += JUMP_VELOCITY
+		gc.retract()
+	
+	var direction = Input.get_axis("left", "right")
 	if direction:
-		velocity.x = direction * SPEED
+		velocity.x = lerp(velocity.x, SPEED * direction, ACCELERATION)
 	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED)
-
-	if direction == 1:
-		ani_sprite.play("running")
-		ani_sprite.flip_h = false
-	elif direction == -1:
-		ani_sprite.play("running")
-		ani_sprite.flip_h = true
-	else :
-		ani_sprite.play("default")
-		
+		velocity.x = lerp(velocity.x, 0.0, DECELERATION)
+	
 	move_and_slide()

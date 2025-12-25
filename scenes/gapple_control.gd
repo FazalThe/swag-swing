@@ -7,11 +7,16 @@ extends Node2D
 @onready var player := get_parent()
 @onready var ray := $RayCast2D
 @onready var rope := $Line2D
+@onready var hand: Node2D = $"../AnimatedSprite2D/Grappling Hand"
+
+
 
 var launched = false
 var target: Vector2
 
 func _process(delta):
+	if launched == true:
+		hand.look_at(to_local(target))
 	ray.look_at(get_global_mouse_position())
 	
 	if Input.is_action_just_pressed("grapple"):
@@ -35,7 +40,6 @@ func retract():
 func handle_grapple(delta):
 	var target_dir = player.global_position.direction_to(target)
 	var target_dist = player.global_position.distance_to(target)
-	
 	var displacement = target_dist - rest_length
 	
 	var force = Vector2.ZERO

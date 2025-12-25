@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://6e0bnouo8b8w"
-path="res://.godot/imported/jump without firing.png-542f2f849662a9d7983e18412324693f.ctex"
+uid="uid://dsx0hcnhaymlm"
+path="res://.godot/imported/hand.png-5390196fb1554350de487a1bb25078ac.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/jump without firing.png"
-dest_files=["res://.godot/imported/jump without firing.png-542f2f849662a9d7983e18412324693f.ctex"]
+source_file="res://assets/hand.png"
+dest_files=["res://.godot/imported/hand.png-5390196fb1554350de487a1bb25078ac.ctex"]
 
 [params]
 

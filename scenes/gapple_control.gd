@@ -1,8 +1,8 @@
 extends Node2D
 
-@export var rest_length = 0
-@export var stiffness = 15.0
-@export var damping = 10
+@export var rest_length = 10
+@export var stiffness = 110.0
+
 
 @onready var player := get_parent()
 @onready var ray := $RayCast2D
@@ -34,7 +34,7 @@ func _process(delta):
 		ani2.play("grap")
 		var dist = (player.global_position.direction_to(target))
 		var dir = player.global_position.direction_to(target)
-		print(dir)
+		
 		hand.global_rotation = -acos(dist[0])
 		if dir[0] > 0:
 			ani.show()
@@ -71,18 +71,18 @@ func handle_grapple(delta):
 	var target_dir = player.global_position.direction_to(target)
 	var target_dist = player.global_position.distance_to(target)
 	var displacement = target_dist - rest_length
-	
+	var damp = 0.2 * displacement
 	var force = Vector2.ZERO
 	
 	if displacement > 0:
-		var spring_force_magnitude = stiffness * displacement
+		var spring_force_magnitude = log(stiffness) * displacement * 10
 		var spring_force = target_dir * spring_force_magnitude
 		
 		var vel_dot = player.velocity.dot(target_dir)
-		var damping = -damping * vel_dot * target_dir
+		var damping = -damp * vel_dot * target_dir
 		
 		force = spring_force + damping
-		
+		print(force)
 	player.velocity += force * delta
 	
 	update_rope()

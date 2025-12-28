@@ -7,18 +7,34 @@ const DECELERATION = 0.1
 
 @onready var gc := $GrappleControl
 @onready var ani: AnimatedSprite2D = $AnimatedSprite2D
-@onready var hand: Sprite2D = $"AnimatedSprite2D/Grappling Hand/Sprite2D"
+@onready var hand: Sprite2D = $"Grappling Hand/Sprite2D"
+@onready var collision: CollisionShape2D = $CollisionShape2D
+@onready var collision_g: CollisionShape2D = $CollisionShape2D2
+@onready var anig1: AnimatedSprite2D = $"Grappling Hand/Body/AnimatedSprite2D"
+@onready var anig2: AnimatedSprite2D = $"Grappling Hand/Body2/AnimatedSprite2D"
+
 
 
 
 func _physics_process(delta):
 	if not is_on_floor():
 		velocity += get_gravity() * delta
+		collision_g.global_position = anig1.global_position
+		
 	if gc.launched == true:
-		hand.show()
-		ani.play("grap")
+		ani.hide()
+		
+		collision.disabled = true
+		collision_g.disabled = false
+		
 	if gc.launched == false:
-		hand.hide()
+		
+		collision.disabled = false
+		collision_g.disabled = true
+		
+		ani.hide()
+		ani.show()
+		
 		var direction = Input.get_axis("left", "right")
 		if direction:
 			velocity.x = lerp(velocity.x, SPEED * direction, ACCELERATION)

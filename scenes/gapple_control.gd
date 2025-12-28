@@ -1,22 +1,52 @@
 extends Node2D
 
-@export var rest_length = 2.0
+@export var rest_length = 0
 @export var stiffness = 15.0
-@export var damping = 1.0
+@export var damping = 10
 
 @onready var player := get_parent()
 @onready var ray := $RayCast2D
 @onready var rope := $Line2D
-@onready var hand: Node2D = $"../AnimatedSprite2D/Grappling Hand"
+@onready var hand: Node2D = $"../Grappling Hand"
+@onready var body: Node2D = $"../Grappling Hand/Body"
+@onready var body2: Node2D = $"../Grappling Hand/Body2"
+@onready var ani: AnimatedSprite2D = $"../Grappling Hand/Body/AnimatedSprite2D"
+@onready var ani2: AnimatedSprite2D = $"../Grappling Hand/Body2/AnimatedSprite2D"
+@onready var hand_sprite: Sprite2D = $"../Grappling Hand/Sprite2D"
+
+
 
 
 
 var launched = false
 var target: Vector2
 
+
 func _process(delta):
+	if launched == false:
+		ani.hide()
+		ani2.hide()
+		hand_sprite.hide()
+	#hand position
 	if launched == true:
-		hand.look_at(to_local(target))
+		hand_sprite.show()
+		ani.play("grap")
+		ani2.play("grap")
+		var dist = (player.global_position.direction_to(target))
+		var dir = player.global_position.direction_to(target)
+		print(dir)
+		hand.global_rotation = -acos(dist[0])
+		if dir[0] > 0:
+			ani.show()
+			ani2.hide()
+			body.global_rotation = acos(dist[0]) - 1.55
+		elif dir[0] < 0:
+			ani.hide()
+			ani2.show()
+			body2.global_rotation = acos(dist[0]) - 1.55
+
+
+	#grapple
 	ray.look_at(get_global_mouse_position())
 	
 	if Input.is_action_just_pressed("grapple"):
@@ -52,9 +82,11 @@ func handle_grapple(delta):
 		var damping = -damping * vel_dot * target_dir
 		
 		force = spring_force + damping
-	
+		
 	player.velocity += force * delta
+	
 	update_rope()
+#finding position for rope start
 
 func update_rope():
 	rope.set_point_position(1, to_local(target))

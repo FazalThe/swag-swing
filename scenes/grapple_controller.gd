@@ -1,6 +1,6 @@
 extends Node2D
 
-@export var rest_length = 0.3
+@export var rest_length = 0.0
 @export var stiffness = 15.0
 @export var damping = 1.0
 

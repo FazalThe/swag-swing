@@ -8,11 +8,9 @@ extends Node2D
 @onready var ray := $RayCast2D
 @onready var rope := $Line2D
 @onready var hand: Node2D = $"../Grappling Hand"
-@onready var body: Node2D = $"../Grappling Hand/Body"
-@onready var body2: Node2D = $"../Grappling Hand/Body2"
-@onready var ani: AnimatedSprite2D = $"../Grappling Hand/Body/AnimatedSprite2D"
-@onready var ani2: AnimatedSprite2D = $"../Grappling Hand/Body2/AnimatedSprite2D"
 @onready var hand_sprite: Sprite2D = $"../Grappling Hand/Sprite2D"
+@onready var ani: AnimatedSprite2D = $"../AnimatedSprite2D"
+@onready var ani2: AnimatedSprite2D = $"../AnimatedSprite2D2"
 
 
 
@@ -20,31 +18,31 @@ extends Node2D
 
 var launched = false
 var target: Vector2
+var gstart: Vector2
 
 
 func _process(delta):
+	ray.global_position = gstart
 	if launched == false:
-		ani.hide()
 		ani2.hide()
+		ani.show()
 		hand_sprite.hide()
 	#hand position
 	if launched == true:
+		ani.flip_h = false
 		hand_sprite.show()
-		ani.play("grap")
-		ani2.play("grap")
-		var dist = (player.global_position.direction_to(target))
-		var dir = player.global_position.direction_to(target)
+		var dist = ray.global_position.direction_to(target)
+		var dir = ray.global_position.direction_to(target)
 		
-		hand.global_rotation = -acos(dist[0])
-		if dir[0] > 0:
+		#hand.global_rotation = -acos(dist[0])
+		hand.look_at(target)
+		if dir[0] > 0.7:
 			ani.show()
 			ani2.hide()
-			body.global_rotation = acos(dist[0]) - 1.55
-		elif dir[0] < 0:
+
+		elif dir[0] < -0.7:
 			ani.hide()
 			ani2.show()
-			body2.global_rotation = acos(dist[0]) - 1.55
-
 
 	#grapple
 	ray.look_at(get_global_mouse_position())
@@ -68,11 +66,13 @@ func retract():
 	rope.hide()
 
 func handle_grapple(delta):
-	var target_dir = player.global_position.direction_to(target)
-	var target_dist = player.global_position.distance_to(target)
+	var target_dir = ray.global_position.direction_to(target)
+	var target_dist = ray.global_position.distance_to(target)
 	var displacement = target_dist - rest_length
 	var damp = 0.2 * displacement
 	var force = Vector2.ZERO
+	var center = hand.global_position
+	gstart = center+ (target_dir*22.5)
 	
 	if displacement > 0:
 		var spring_force_magnitude = log(stiffness) * displacement * 10
@@ -82,7 +82,6 @@ func handle_grapple(delta):
 		var damping = -damp * vel_dot * target_dir
 		
 		force = spring_force + damping
-		print(force)
 	player.velocity += force * delta
 	
 	update_rope()
@@ -90,3 +89,5 @@ func handle_grapple(delta):
 
 func update_rope():
 	rope.set_point_position(1, to_local(target))
+	rope.set_point_position(0, to_local(gstart))
+	

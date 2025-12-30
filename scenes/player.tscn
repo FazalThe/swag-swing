@@ -401,13 +401,16 @@ scale = Vector2(1.1067896, 1.134198)
 sprite_frames = SubResource("SpriteFrames_cs1tg")
 animation = &"grap"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
-position = Vector2(-140.14142, 73.71414)
-shape = SubResource("RectangleShape2D_2dvfe")
+[node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="."]
+z_index = 1
+position = Vector2(-192.99998, 80)
+scale = Vector2(1.107, 1.134)
+sprite_frames = SubResource("SpriteFrames_cs1tg")
+animation = &"grap"
+flip_h = true
 
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
-position = Vector2(-169, 82.5)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-156, 76)
 shape = SubResource("RectangleShape2D_2dvfe")
 
 [node name="GrappleControl" type="Node2D" parent="."]
@@ -427,33 +430,12 @@ default_color = Color(0.4745098, 0.40784314, 0.13333334, 1)
 round_precision = 13
 
 [node name="Grappling Hand" type="Node2D" parent="."]
-position = Vector2(-13.000008, -1)
+position = Vector2(-174, 28.000004)
 scale = Vector2(1.1067896, 1.1341981)
 
 [node name="Sprite2D" type="Sprite2D" parent="Grappling Hand"]
 z_index = -1
-position = Vector2(-107.51819, 23.805374)
+position = Vector2(34.333527, -2.6450539)
 rotation = 0.64751714
 scale = Vector2(0.2951688, 0.326161)
 texture = ExtResource("6_smehm")
-
-[node name="Body" type="Node2D" parent="Grappling Hand"]
-position = Vector2(-138.23766, 27.332085)
-scale = Vector2(1, 0.9999999)
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Grappling Hand/Body"]
-z_index = 1
-position = Vector2(15.359739, 43.202335)
-sprite_frames = SubResource("SpriteFrames_cs1tg")
-animation = &"grap"
-
-[node name="Body2" type="Node2D" parent="Grappling Hand"]
-position = Vector2(-137.33414, 29.977127)
-scale = Vector2(1, 0.9999999)
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Grappling Hand/Body2"]
-z_index = 1
-position = Vector2(-28.008936, 41.438976)
-sprite_frames = SubResource("SpriteFrames_cs1tg")
-animation = &"grap"
-flip_h = true

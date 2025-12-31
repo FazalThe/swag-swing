@@ -19,10 +19,12 @@ extends Node2D
 var launched = false
 var target: Vector2
 var gstart: Vector2
+var target_dist
+var target_dir
 
 
 func _process(delta):
-	ray.global_position = gstart
+
 	if launched == false:
 		ani2.hide()
 		ani.show()
@@ -60,21 +62,26 @@ func launch():
 		launched = true
 		target = ray.get_collision_point()
 		rope.show()
-
 func retract():
 	launched = false
 	rope.hide()
 
 func handle_grapple(delta):
-	var target_dir = ray.global_position.direction_to(target)
-	var target_dist = ray.global_position.distance_to(target)
-	var displacement = target_dist - rest_length
-	var damp = 0.2 * displacement
-	var force = Vector2.ZERO
+	target_dir = hand.global_position.direction_to(target)
 	var center = hand.global_position
 	gstart = center+ (target_dir*22.5)
+	ray.global_position = gstart
+	target_dist = ray.global_position.distance_to(target)
+	var displacement = target_dist - rest_length
+	print(target_dir)
+
+	var damp = 0.2 * displacement
+	var force = Vector2.ZERO
+
+	#print(displacement)
+	#print(target_dist)
 	
-	if displacement > 0:
+	if target_dist > 0:
 		var spring_force_magnitude = log(stiffness) * displacement * 10
 		var spring_force = target_dir * spring_force_magnitude
 		

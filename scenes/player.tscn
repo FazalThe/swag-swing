@@ -1,4 +1,4 @@
-[gd_scene load_steps=61 format=3 uid="uid://cvw0gcwnft5sn"]
+[gd_scene load_steps=63 format=3 uid="uid://cvw0gcwnft5sn"]
 
 [ext_resource type="Script" uid="uid://c0ls3un115ror" path="res://scenes/player.gd" id="1_qhqgy"]
 [ext_resource type="Texture2D" uid="uid://b2b6f5hgt4l1v" path="res://assets/idle right direction.png" id="2_qlg0r"]
@@ -7,6 +7,11 @@
 [ext_resource type="Texture2D" uid="uid://cuycgilbpoan8" path="res://assets/a one with no hand.png" id="4_fjrip"]
 [ext_resource type="Texture2D" uid="uid://bnptd3u0ojaq4" path="res://assets/edited run.png" id="4_tuyoq"]
 [ext_resource type="Texture2D" uid="uid://dsx0hcnhaymlm" path="res://assets/hand.png" id="6_smehm"]
+[ext_resource type="Texture2D" uid="uid://dcu4xbej44hli" path="res://assets/hd-reticle-crosshair-white-icon-png-701751694974296g5zzdmprmy-removebg-preview.png" id="7_smehm"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g5jhy"]
+atlas = ExtResource("3_qlg0r")
+region = Rect2(888, 1332, 222, 333)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hhpqf"]
 atlas = ExtResource("4_fjrip")
@@ -216,6 +221,14 @@ region = Rect2(0, 578, 349, 289)
 animations = [{
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_g5jhy")
+}],
+"loop": true,
+"name": &"air",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_hhpqf")
 }],
 "loop": true,
@@ -399,7 +412,7 @@ z_index = 1
 position = Vector2(-149, 79)
 scale = Vector2(1.1067896, 1.134198)
 sprite_frames = SubResource("SpriteFrames_cs1tg")
-animation = &"grap"
+animation = &"air"
 
 [node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="."]
 z_index = 1
@@ -419,7 +432,7 @@ script = ExtResource("3_dqkch")
 
 [node name="RayCast2D" type="RayCast2D" parent="GrappleControl"]
 position = Vector2(3, 0)
-target_position = Vector2(3000, 0)
+target_position = Vector2(1800, 0)
 collision_mask = 2
 
 [node name="Line2D" type="Line2D" parent="GrappleControl"]
@@ -429,6 +442,11 @@ points = PackedVector2Array(0, 0, 0, 0)
 default_color = Color(0.4745098, 0.40784314, 0.13333334, 1)
 round_precision = 13
 
+[node name="CrossHair" type="Sprite2D" parent="GrappleControl"]
+position = Vector2(80.000015, -11.999985)
+scale = Vector2(0.106, 0.106)
+texture = ExtResource("7_smehm")
+
 [node name="Grappling Hand" type="Node2D" parent="."]
 position = Vector2(-174, 28.000004)
 scale = Vector2(1.1067896, 1.1341981)
@@ -436,6 +454,6 @@ scale = Vector2(1.1067896, 1.1341981)
 [node name="Sprite2D" type="Sprite2D" parent="Grappling Hand"]
 z_index = -1
 position = Vector2(34.333527, -2.6450539)
-rotation = 0.64751714
-scale = Vector2(0.2951688, 0.326161)
+rotation = 0.6475172
+scale = Vector2(0.2951688, 0.32616097)
 texture = ExtResource("6_smehm")

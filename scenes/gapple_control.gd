@@ -11,6 +11,7 @@ extends Node2D
 @onready var hand_sprite: Sprite2D = $"../Grappling Hand/Sprite2D"
 @onready var ani: AnimatedSprite2D = $"../AnimatedSprite2D"
 @onready var ani2: AnimatedSprite2D = $"../AnimatedSprite2D2"
+@onready var crosshair: Sprite2D = $CrossHair
 
 
 
@@ -56,11 +57,14 @@ func _process(delta):
 	
 	if launched:
 		handle_grapple(delta)
-
+	
+	cross_pos()
+	
 func launch():
 	if ray.is_colliding():
 		launched = true
 		target = ray.get_collision_point()
+		crosshair.global_position = target
 		rope.show()
 func retract():
 	launched = false
@@ -69,11 +73,15 @@ func retract():
 func handle_grapple(delta):
 	target_dir = hand.global_position.direction_to(target)
 	var center = hand.global_position
+	target_dir[0] -= 0.2
 	gstart = center+ (target_dir*22.5)
 	ray.global_position = gstart
 	target_dist = ray.global_position.distance_to(target)
 	var displacement = target_dist - rest_length
 	print(target_dir)
+	
+	#cross hair position
+	crosshair.global_position = target
 
 	var damp = 0.2 * displacement
 	var force = Vector2.ZERO
@@ -92,7 +100,15 @@ func handle_grapple(delta):
 	player.velocity += force * delta
 	
 	update_rope()
+
 #finding position for rope start
+func cross_pos():
+	if launched == false:
+		if ray.is_colliding():
+			
+			crosshair.global_position = ray.get_collision_point()
+		else:
+			crosshair.global_position = ray.global_position.direction_to(get_global_mouse_position()) *1800
 
 func update_rope():
 	rope.set_point_position(1, to_local(target))

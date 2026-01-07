@@ -457,3 +457,7 @@ position = Vector2(34.333527, -2.6450539)
 rotation = 0.6475172
 scale = Vector2(0.2951688, 0.32616097)
 texture = ExtResource("6_smehm")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 1.7999999999999998
+one_shot = true

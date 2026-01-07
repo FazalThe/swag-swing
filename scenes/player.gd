@@ -9,6 +9,7 @@ const DECELERATION = 0.1
 @onready var ani: AnimatedSprite2D = $AnimatedSprite2D
 @onready var hand: Sprite2D = $"Grappling Hand/Sprite2D"
 @onready var collision: CollisionShape2D = $CollisionShape2D
+@onready var timer: Timer = $Timer
 
 
 
@@ -40,8 +41,12 @@ func _physics_process(delta):
 				ani.play("run")
 			else:
 				ani.play("idle")
-	if Input.is_action_just_pressed("jump") && (is_on_floor() || gc.launched):
+	if Input.is_action_just_pressed("jump") && (is_on_floor() || gc.launched or !timer.is_stopped()):
 		velocity.y += JUMP_VELOCITY
 		gc.retract()
 		ani.play("jump")
+	var was_on_floor = is_on_floor()
+	var was_launched = gc.launched
 	move_and_slide()
+	if (is_on_floor() != was_on_floor or gc.launched != was_launched) :
+		timer.start()

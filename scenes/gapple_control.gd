@@ -78,7 +78,6 @@ func handle_grapple(delta):
 	ray.global_position = gstart
 	target_dist = ray.global_position.distance_to(target)
 	var displacement = target_dist - rest_length
-	print(target_dir)
 	
 	#cross hair position
 	crosshair.global_position = target
@@ -103,12 +102,14 @@ func handle_grapple(delta):
 
 #finding position for rope start
 func cross_pos():
+	var pos = hand.global_position
+	var scale = 0.15
 	if launched == false:
-		if ray.is_colliding():
+		if ray.is_colliding() == false:
+			crosshair.global_position = pos+(pos.direction_to(get_global_mouse_position()) *1300 * scale)
 			
-			crosshair.global_position = ray.get_collision_point()
 		else:
-			crosshair.global_position = ray.global_position.direction_to(get_global_mouse_position()) *1800
+			crosshair.global_position = ray.get_collision_point()
 
 func update_rope():
 	rope.set_point_position(1, to_local(target))

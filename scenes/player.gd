@@ -2,8 +2,8 @@ extends CharacterBody2D
 
 const SPEED = 200.0
 const JUMP_VELOCITY = -300.0
-const ACCELERATION = 0.1
-const DECELERATION = 0.1
+const ACCELERATION = 0.15
+const DECELERATION = 0.15
 
 @onready var gc := $GrappleControl
 @onready var ani: AnimatedSprite2D = $AnimatedSprite2D
@@ -46,7 +46,7 @@ func _physics_process(delta):
 		gc.retract()
 		ani.play("jump")
 	var was_on_floor = is_on_floor()
-	var was_launched = gc.launched
+
 	move_and_slide()
-	if (is_on_floor() != was_on_floor or gc.launched != was_launched) :
+	if is_on_floor() != was_on_floor :
 		timer.start()

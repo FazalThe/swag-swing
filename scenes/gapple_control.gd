@@ -12,6 +12,7 @@ extends Node2D
 @onready var ani: AnimatedSprite2D = $"../AnimatedSprite2D"
 @onready var ani2: AnimatedSprite2D = $"../AnimatedSprite2D2"
 @onready var crosshair: Sprite2D = $CrossHair
+@onready var timer: Timer = $"../Timer"
 
 
 
@@ -22,7 +23,7 @@ var target: Vector2
 var gstart: Vector2
 var target_dist
 var target_dir
-
+var was_launched = false
 
 func _process(delta):
 
@@ -57,6 +58,11 @@ func _process(delta):
 	
 	if launched:
 		handle_grapple(delta)
+
+	#detect retract
+	if was_launched and not launched:
+		tstart()
+	was_launched = launched
 	
 	cross_pos()
 	
@@ -115,3 +121,9 @@ func update_rope():
 	rope.set_point_position(1, to_local(target))
 	rope.set_point_position(0, to_local(gstart))
 	
+#detect retract
+
+
+
+func tstart():
+	timer.start()

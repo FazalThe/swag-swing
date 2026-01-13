@@ -13,9 +13,8 @@ extends Node2D
 @onready var ani2: AnimatedSprite2D = $"../AnimatedSprite2D2"
 @onready var crosshair: Sprite2D = $CrossHair
 @onready var timer: Timer = $"../Timer"
-
-
-
+@onready var charge: float = 100
+@onready var charge_reload: Timer = $Timer
 
 
 var launched = false
@@ -27,17 +26,18 @@ var was_launched = false
 
 func _process(delta):
 
-	if launched == false:
+	if not launched:
 		ani2.hide()
 		ani.show()
 		hand_sprite.hide()
+
 	#hand position
-	if launched == true:
+	if launched :
 		ani.flip_h = false
 		hand_sprite.show()
-		var dist = ray.global_position.direction_to(target)
+		#var dist = ray.global_position.direction_to(target)
 		var dir = ray.global_position.direction_to(target)
-		
+
 		#hand.global_rotation = -acos(dist[0])
 		hand.look_at(target)
 		if dir[0] > 0.7:
@@ -48,23 +48,28 @@ func _process(delta):
 			ani.hide()
 			ani2.show()
 
+		handle_grapple(delta)
+
+
 	#grapple
 	ray.look_at(get_global_mouse_position())
 	
-	if Input.is_action_just_pressed("grapple"):
+	if Input.is_action_just_pressed("grapple") and charge >= 25:
 		launch()
-	if Input.is_action_just_released("grapple"):
+	if Input.is_action_just_released("grapple") or not charge:
 		retract()
 	
-	if launched:
-		handle_grapple(delta)
 
+		
 	#detect retract
 	if was_launched and not launched:
 		tstart()
+		
 	was_launched = launched
 	
+	
 	cross_pos()
+	print(charge)
 	
 func launch():
 	if ray.is_colliding():
@@ -109,10 +114,10 @@ func handle_grapple(delta):
 #finding position for rope start
 func cross_pos():
 	var pos = hand.global_position
-	var scale = 0.15
+	var scal = 0.15
 	if launched == false:
 		if ray.is_colliding() == false:
-			crosshair.global_position = pos+(pos.direction_to(get_global_mouse_position()) *1300 * scale)
+			crosshair.global_position = pos+(pos.direction_to(get_global_mouse_position()) *1300 * scal)
 			
 		else:
 			crosshair.global_position = ray.get_collision_point()
@@ -127,3 +132,18 @@ func update_rope():
 
 func tstart():
 	timer.start()
+	charge_reload.start()
+	if charge >= 75:
+		charge = 75
+	elif charge >= 50:
+		charge = 50
+	elif charge >= 25:
+		charge = 25
+	else :
+		charge = 0
+	
+func _physics_process(_delta: float) -> void:
+	if launched:
+		charge = max(charge - 0.2, 0)
+	elif charge_reload.is_stopped():
+		charge = min(charge + 0.1, 100)

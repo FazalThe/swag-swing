@@ -10,12 +10,12 @@ const DECELERATION = 0.15
 @onready var hand: Sprite2D = $"Grappling Hand/Sprite2D"
 @onready var collision: CollisionShape2D = $CollisionShape2D
 @onready var timer: Timer = $Timer
-
-
+@onready var charge = 100
 
 
 
 func _physics_process(delta):
+	charge = gc.charge
 	if not is_on_floor():
 		velocity += get_gravity() * delta
 		if gc.launched == false:
@@ -47,6 +47,9 @@ func _physics_process(delta):
 		ani.play("jump")
 	var was_on_floor = is_on_floor()
 
+
 	move_and_slide()
 	if is_on_floor() != was_on_floor :
 		timer.start()
+		
+	

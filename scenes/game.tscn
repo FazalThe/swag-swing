@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=4 uid="uid://b2btg07fcloi0"]
+[gd_scene load_steps=22 format=4 uid="uid://b2btg07fcloi0"]
 
 [ext_resource type="Texture2D" uid="uid://foenutbkxmxk" path="res://assets/craftpix-net-314143-free-industrial-zone-tileset-pixel-art/2 Background/1.png" id="1_0tnpc"]
 [ext_resource type="PackedScene" uid="uid://cvw0gcwnft5sn" path="res://scenes/player.tscn" id="1_yqjtg"]
@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://dcu4xbej44hli" path="res://assets/hd-reticle-crosshair-white-icon-png-701751694974296g5zzdmprmy-removebg-preview.png" id="8_0tnpc"]
 [ext_resource type="Texture2D" uid="uid://byihsgaur2ela" path="res://assets/Animated_objects (2).png" id="9_dinhu"]
 [ext_resource type="PackedScene" uid="uid://dr5ykh4hrw1la" path="res://scenes/kill.tscn" id="10_vtaks"]
+[ext_resource type="PackedScene" uid="uid://di2s63vl57wwg" path="res://scenes/Battery.tscn" id="14_ir15t"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_vtaks"]
 texture = ExtResource("6_0tnpc")
@@ -493,7 +494,7 @@ script/source = "extends Sprite2D
 size = Vector2(302, 33)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kvpfn"]
-size = Vector2(472, 20)
+size = Vector2(735, 20)
 
 [node name="Node2D" type="Node2D"]
 
@@ -561,7 +562,7 @@ tile_map_data = PackedByteArray("AAAHAP//AQADAAIAAAAJAP//AQADAAEAAAAKAP//AQACAAE
 tile_set = SubResource("TileSet_iywne")
 
 [node name="Player" parent="." instance=ExtResource("1_yqjtg")]
-position = Vector2(1136, -640)
+position = Vector2(-105, -42)
 scale = Vector2(0.15, 0.15)
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
@@ -581,18 +582,29 @@ scale = Vector2(0.100000024, 0.100000024)
 texture = ExtResource("8_0tnpc")
 script = SubResource("GDScript_gee14")
 
-[node name="Objects" type="Node2D" parent="."]
+[node name="Killzones" type="Node2D" parent="."]
+position = Vector2(4, 211)
 
-[node name="kill" parent="." instance=ExtResource("10_vtaks")]
+[node name="kill" parent="Killzones" instance=ExtResource("10_vtaks")]
 position = Vector2(865, -197)
+collision_layer = 4
+collision_mask = 4
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="kill"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Killzones/kill"]
 position = Vector2(7, -148)
 shape = SubResource("RectangleShape2D_vtaks")
 
-[node name="Area2D" parent="." instance=ExtResource("10_vtaks")]
+[node name="kill2" parent="Killzones" instance=ExtResource("10_vtaks")]
 position = Vector2(1682, -306)
+collision_layer = 4
+collision_mask = 4
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(30, 0)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Killzones/kill2"]
+position = Vector2(161.5, 0)
 shape = SubResource("RectangleShape2D_kvpfn")
+
+[node name="Objects" type="Node2D" parent="."]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Battery" parent="CanvasLayer" instance=ExtResource("14_ir15t")]

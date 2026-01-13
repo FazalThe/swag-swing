@@ -1,0 +1,97 @@
+[gd_scene load_steps=14 format=3 uid="uid://krrxt0loflw0"]
+
+[ext_resource type="Script" uid="uid://yvc47ul5xujx" path="res://scenes/crusher.gd" id="1_i7g8o"]
+[ext_resource type="Texture2D" uid="uid://myug1gypphh" path="res://assets/craftpix-net-314143-free-industrial-zone-tileset-pixel-art/4 Animated objects/Hammer.png" id="1_pmi7a"]
+[ext_resource type="PackedScene" uid="uid://dr5ykh4hrw1la" path="res://scenes/kill.tscn" id="2_mfxk6"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1075v"]
+size = Vector2(22.857, 50.000008)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jub50"]
+size = Vector2(20, 1.4285698)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i7g8o"]
+atlas = ExtResource("1_pmi7a")
+region = Rect2(0, 0, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mfxk6"]
+atlas = ExtResource("1_pmi7a")
+region = Rect2(32, 0, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1075v"]
+atlas = ExtResource("1_pmi7a")
+region = Rect2(64, 0, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yg3oy"]
+atlas = ExtResource("1_pmi7a")
+region = Rect2(128, 0, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xb6o2"]
+atlas = ExtResource("1_pmi7a")
+region = Rect2(160, 0, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iy8sb"]
+atlas = ExtResource("1_pmi7a")
+region = Rect2(192, 0, 32, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8jy0p"]
+atlas = ExtResource("1_pmi7a")
+region = Rect2(224, 0, 32, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_x1wbc"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i7g8o")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mfxk6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1075v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yg3oy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xb6o2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iy8sb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8jy0p")
+}],
+"loop": false,
+"name": &"default",
+"speed": 15.0
+}]
+
+[node name="crusher" type="Node2D"]
+scale = Vector2(1.4, 1.4)
+script = ExtResource("1_i7g8o")
+
+[node name="AnimatableBody2D" type="AnimatableBody2D" parent="."]
+scale = Vector2(0.99999994, 0.99999994)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatableBody2D"]
+position = Vector2(-1.2772425e-07, 2.8571415)
+shape = SubResource("RectangleShape2D_1075v")
+
+[node name="Area2D" parent="AnimatableBody2D" instance=ExtResource("2_mfxk6")]
+collision_layer = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatableBody2D/Area2D"]
+position = Vector2(0, 31.428576)
+shape = SubResource("RectangleShape2D_jub50")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_x1wbc")
+frame = 6
+frame_progress = 1.0
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 2.0
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

@@ -465,3 +465,5 @@ texture = ExtResource("6_smehm")
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.15
 one_shot = true
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]

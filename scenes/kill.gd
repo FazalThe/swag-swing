@@ -3,7 +3,7 @@ extends Area2D
 @onready var killtime: Timer = $killtime
 
 
-func _on_body_entered(body: Node2D) -> void:
+func _on_body_entered(_body: Node2D) -> void:
 	print("lask")
 	killtime.start()
 

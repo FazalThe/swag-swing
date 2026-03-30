@@ -8,12 +8,14 @@ extends Node2D
 @onready var crush: AnimatableBody2D = $AnimatableBody2D
 
 
-@onready var posu = crushref.global_position
-@onready var posd = posu - Vector2(0,60)
+@onready var posu: Vector2 = Vector2(0,0)
+@onready var posd: Vector2 = posu + Vector2(0,30)
 @onready var tween
 
+
 func _physics_process(_delta: float) -> void:
-	print(crush.global_position)
+	
+	pass
 	
 func _on_timer_timeout() -> void:
 	ani.play("default")

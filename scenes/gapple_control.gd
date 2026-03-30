@@ -69,7 +69,6 @@ func _process(delta):
 	
 	
 	cross_pos()
-	print(charge)
 	
 func launch():
 	if ray.is_colliding():

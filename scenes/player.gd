@@ -46,7 +46,7 @@ func _physics_process(delta):
 		gc.retract()
 		ani.play("jump")
 	var was_on_floor = is_on_floor()
-
+	
 
 	move_and_slide()
 	if is_on_floor() != was_on_floor :

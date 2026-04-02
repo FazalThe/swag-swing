@@ -1,4 +1,4 @@
-[gd_scene load_steps=64 format=3 uid="uid://cvw0gcwnft5sn"]
+[gd_scene load_steps=67 format=3 uid="uid://cvw0gcwnft5sn"]
 
 [ext_resource type="Script" uid="uid://c0ls3un115ror" path="res://scenes/player.gd" id="1_qhqgy"]
 [ext_resource type="Texture2D" uid="uid://b2b6f5hgt4l1v" path="res://assets/idle right direction.png" id="2_qlg0r"]
@@ -9,6 +9,9 @@
 [ext_resource type="Texture2D" uid="uid://dsx0hcnhaymlm" path="res://assets/hand.png" id="6_smehm"]
 [ext_resource type="Texture2D" uid="uid://c3ho27atpp206" path="res://assets/ChatGPT Image Mar 31, 2026, 10_59_55 AM.png" id="7_ur7pv"]
 [ext_resource type="Script" uid="uid://3o2fnoyge3a0" path="res://scenes/cross_hair.gd" id="8_y4r1p"]
+[ext_resource type="AudioStream" uid="uid://boh8gaokje24g" path="res://assets/sfx/jumpland.wav" id="10_y4r1p"]
+[ext_resource type="AudioStream" uid="uid://coeduc7y65okn" path="res://assets/sfx/hitHurt.wav" id="11_d2wvv"]
+[ext_resource type="AudioStream" uid="uid://cq6a21ifqlw0g" path="res://assets/sfx/laserShoot.wav" id="12_3v2ag"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_g5jhy"]
 atlas = ExtResource("3_qlg0r")
@@ -468,4 +471,16 @@ texture = ExtResource("6_smehm")
 wait_time = 0.15
 one_shot = true
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+[node name="sfx" type="Node2D" parent="."]
+
+[node name="jump" type="AudioStreamPlayer" parent="sfx"]
+stream = ExtResource("10_y4r1p")
+volume_db = -15.0
+
+[node name="land" type="AudioStreamPlayer" parent="sfx"]
+stream = ExtResource("11_d2wvv")
+volume_db = -15.0
+
+[node name="grap" type="AudioStreamPlayer" parent="sfx"]
+stream = ExtResource("12_3v2ag")
+volume_db = -15.0

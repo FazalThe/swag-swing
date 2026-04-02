@@ -15,6 +15,9 @@ extends Node2D
 @onready var timer: Timer = $"../Timer"
 @onready var charge: float = 100
 @onready var charge_reload: Timer = $Timer
+@onready var sfx_grap: AudioStreamPlayer = $"../sfx/grap"
+
+
 
 
 var launched = false
@@ -76,6 +79,7 @@ func launch():
 		target = ray.get_collision_point()
 		crosshair.global_position = target
 		rope.show()
+		sfx_grap.play()
 func retract():
 	launched = false
 	rope.hide()

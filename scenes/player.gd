@@ -11,6 +11,8 @@ const DECELERATION = 0.15
 @onready var collision: CollisionShape2D = $CollisionShape2D
 @onready var timer: Timer = $Timer
 @onready var charge = 100
+@onready var jump_sound: AudioStreamPlayer = $sfx/jump
+@onready var land_sound: AudioStreamPlayer = $sfx/land
 
 
 
@@ -41,15 +43,20 @@ func _physics_process(delta):
 				ani.play("run")
 			else:
 				ani.play("idle")
+				
+				
 	if Input.is_action_just_pressed("jump") && (is_on_floor() || gc.launched or !timer.is_stopped()):
 		velocity.y += JUMP_VELOCITY
 		gc.retract()
 		ani.play("jump")
+		#sfx jump
+		if is_on_floor() :
+			jump_sound.play()
 	var was_on_floor = is_on_floor()
 	
 
 	move_and_slide()
 	if is_on_floor() != was_on_floor :
 		timer.start()
-		
+		land_sound.play()
 	

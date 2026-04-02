@@ -9,7 +9,7 @@ var was_colliding = false
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
 	var is_colliding = gc.ray.is_colliding()
-	print(is_colliding)
+	
 	if was_colliding and not is_colliding :
 		tween = create_tween()
 		tween.set_trans(Tween.TRANS_CUBIC)

@@ -20,7 +20,7 @@ func _physics_process(delta):
 	charge = gc.charge
 	if not is_on_floor():
 		velocity += get_gravity() * delta
-		if gc.launched == false:
+		if !gc.launched and timer.is_stopped():
 			ani.play("air")
 	if gc.launched == true:
 		#ani.hide()

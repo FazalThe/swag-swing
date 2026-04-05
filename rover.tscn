@@ -38,18 +38,20 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_il8ej"]
-size = Vector2(32, 8)
+[sub_resource type="ConvexPolygonShape2D" id="ConvexPolygonShape2D_il8ej"]
+points = PackedVector2Array(16.513762, 3.6697245, 16.513762, -3.058104, 14.067278, -4.281346, -12.844036, -4.281346, -15.29052, -2.4464831, -15.29052, 3.6697245)
 
 [node name="Rover" type="Node2D"]
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(1.64, 1.64)
 sprite_frames = SubResource("SpriteFrames_ahhn0")
 autoplay = "default"
 frame_progress = 0.4088398
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(0, -2)
-shape = SubResource("RectangleShape2D_il8ej")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(-1, -2.9999998)
+scale = Vector2(1.635, 1.635)
+shape = SubResource("ConvexPolygonShape2D_il8ej")

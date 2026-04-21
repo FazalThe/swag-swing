@@ -8,7 +8,7 @@ extends Node2D
 @onready var ray := $RayCast2D
 @onready var rope := $Line2D
 @onready var hand: Node2D = $"../Grappling Hand"
-@onready var hand_sprite: Sprite2D = $"../Grappling Hand/Sprite2D"
+@onready var hand_sprite: Node2D = $"../Grappling Hand/han"
 @onready var ani: AnimatedSprite2D = $"../AnimatedSprite2D"
 @onready var ani2: AnimatedSprite2D = $"../AnimatedSprite2D2"
 @onready var crosshair: Sprite2D = $CrossHair
@@ -16,6 +16,8 @@ extends Node2D
 @onready var charge: float = 100
 @onready var charge_reload: Timer = $Timer
 @onready var sfx_grap: AudioStreamPlayer = $"../sfx/grap"
+@onready var gun: Sprite2D = $"../Grappling Hand/han/Gun"
+
 
 
 
@@ -46,10 +48,14 @@ func _process(delta):
 		if dir[0] > 0.7:
 			ani.show()
 			ani2.hide()
+			gun.flip_v = false
+			gun.offset = Vector2(0,0)
 
 		elif dir[0] < -0.7:
 			ani.hide()
 			ani2.show()
+			gun.flip_v = true
+			gun.offset = Vector2(0,4.4)
 
 		handle_grapple(delta)
 
@@ -88,7 +94,7 @@ func handle_grapple(delta):
 	target_dir = hand.global_position.direction_to(target)
 	var center = hand.global_position
 	target_dir[0] -= 0.2
-	gstart = center+ (target_dir*22.5)
+	gstart = center+ (target_dir*26)
 	ray.global_position = gstart
 	target_dist = ray.global_position.distance_to(target)
 	var displacement = target_dist - rest_length
